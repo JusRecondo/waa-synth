@@ -721,3 +721,12 @@ let playNReg  = (event) => {
 document.addEventListener("keydown", playNReg); 
 
 
+//redirigir a github si es abierto desde un celular
+let mediaSize = window.matchMedia("(max-width: 600px)");
+
+window.addEventListener("load", function(event) {
+    if (mediaSize.matches) {
+        alert("por ahora no estoy diseñado para funcionar en dispositivos moviles, abrir en compu");
+        window.location.replace("https://github.com/JusRecondo/web-audio-api-synth");
+    }    
+});    
