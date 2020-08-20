@@ -1,0 +1,109 @@
+/* CSS grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    justify-content: space-evenly;
+    padding: 20px;
+  }
+
+.grid-item-one {
+  grid-column: 1;
+  grid-row: 1;
+}
+  
+.grid-item-ten {
+  grid-column:3;
+  grid-row: 1;
+}
+.grid-item-two {
+ grid-column: 1;
+ grid-row: 2;
+} 
+
+.grid-item-three {
+  grid-column: 2;
+  grid-row: 2;
+
+}
+
+.grid-item-four {
+  grid-column: 3;
+  grid-row: 2;
+
+}
+
+.grid-item-five {
+  grid-column: 1;
+  grid-row: 3;
+
+}
+
+.grid-item-six {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.grid-item-seven {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.grid-item-eight {
+  grid-column: 1 / 3;
+  grid-row: 4;
+}
+
+.grid-item-nine {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+
+
+body, input, button, option {
+
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.slider-width {
+    width: 220px;
+}
+
+.slider-width2 {
+  width: 280px;
+}
+
+.text-input-size {
+  width: 70px;
+}
+
+.margin {
+  margin: 0px 15px 15px 0px;
+}
+
+.margin-right {
+  margin-right: 20px;
+}
+
+.margin-top {
+  margin-top: 10px;
+}
+
+.no-margin {
+  margin: 0px;
+  padding: 0px;
+}
+
+#on-off-master {
+  margin-right: 10px;
+}
+
+main {
+  padding: 40px;
+}
+
+#grafico {
+  margin: 20px;
+}
