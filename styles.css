@@ -111,3 +111,11 @@ main {
 #leer {
   font-size: 20px;
 }
+
+ol {
+  text-align: justify
+}
+
+li {
+  width: 80%;
+}
