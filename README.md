@@ -66,4 +66,5 @@ Ejercicio de programación y de síntesis.
             <a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank">Frequencies for equal-tempered scale, A4 = 440 Hz</a>
         </div>
         <span><b>Proximas mejoras podrian ser la incorporacion de MIDI y manipulacion de la envolvente :3</b></span>
+        <span><b>Pueden usarlo aca <a href="https://jusrecondo.github.io/web-audio-api-synth/" target="_blank">Synth</a></b></span>
     </main>
