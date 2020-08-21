@@ -1,9 +1,5 @@
 # web-audio-api-synth
 Ejercicio de programación y de síntesis.
-<head>
-    <link rel="stylesheet" href="styles.css">
-    <title>WAA Synth help</title>
-</head>
 <main>
         <div>
             <h1>Notas</h1>
