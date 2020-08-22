@@ -7,17 +7,17 @@ Ejercicio de programación y de síntesis.
                 <li>
                     Esta idea de sintetizador sigue en desarollo y esta hecho con Javascript (utilizando la 
                     <a href="https://www.w3.org/TR/webaudio/" target="_blank">Web Audio API</a>), 
-                    html y css. Es por un lado un ejercicio de programacion pero tambien uno sobre sintesis. 
+                    html y css. Es por un lado un ejercicio de programación pero tambien uno sobre sintesis. 
                 </li>
                 <li>La fundamental de cada oscilador se puede modificar de las siguientes formas:</li>
-                <ul>
-                    <li>Escribiedo la frecuencia en el input "Freq" (escribiendo cualquier numero 
-                        o presionado las flechas hacia arriba o abajo);</li>
-                    <li>Tocando con el teclado qwerty <a href="#grafico">(ver gráfico)</a> (no es necesario mantener las 
-                        teclas presionadas! si lo haces se produce un descenso en volumen, no esta roto, es asi); </li>    
-                    <li>Con el input "detune", 50 cents hacia arriba o hacia abajo (50 cents = 1/4 de tono);</li>  
-                    <li>Cada oscilador se puede cambiar de octava independientemente.</li>  
-                </ul>
+                    <ul>
+                        <li>Escribiedo la frecuencia en el input "Freq" (escribiendo cualquier numero 
+                            o presionado las flechas hacia arriba o abajo);</li>
+                        <li>Tocando con el teclado qwerty <a href="#grafico">(ver gráfico)</a> (no es necesario mantener las 
+                            teclas presionadas! si lo haces se produce un descenso en volumen, no esta roto, es asi); </li>    
+                        <li>Con el input "detune", 50 cents hacia arriba o hacia abajo (50 cents = 1/4 de tono);</li>  
+                        <li>Cada oscilador se puede cambiar de octava independientemente.</li>  
+                    </ul>
                 <li>La introduccion de notas con el teclado esta pensada por el momento simplemente 
                     para cambiar las frecuencias, no funciona como el teclado de un sinte habitual 
                     Sin embargo, pueden tocarse melodías sencillas. No se puede manipular la envolvente por el momento. </li>  
@@ -42,19 +42,12 @@ Ejercicio de programación y de síntesis.
                     Se puede reducir el zoom de la ventana del navegador a un 90% si es necesario para poder visualizar 
                     todos los controles. No esta pensado ni optimizado para usarse en dispositivos moviles, por el momento. 
                 </li>
-                    <li>
-                        Los controles se pueden manipular tambien solo con el teclado, usando la tecla TAB 
-                        para desplazarse, las flechas del teclado para incrementar/disminuir, y el enter 
-                        para ingresar en los selectores de onda por ejemplo.
-                    </li>
-                    <ul>
-                        <li><a href="img/preset1.png" target="_blank">"preset" 1</a></li>
-                        <li><a href="img/preset2.png" target="_blank">"preset" 2</a></li>
-                        <li><a href="img/preset3.png" target="_blank">"preset" 3</a></li>
-                        <li><a href="img/preset4.png" target="_blank">"preset" 4</a></li>
-                        <li><a href="img/preset5.png" target="_blank">"preset" 5</a></li>
-                    </ul>
-                </li>    
+                <li>
+                    Los controles se pueden manipular tambien solo con el teclado, usando la tecla TAB 
+                    para desplazarse, las flechas del teclado para incrementar/disminuir, y el enter 
+                    para ingresar en los selectores de onda por ejemplo.
+                </li>
+                <li>Si tocas el boton "preset random", te configura los parámetros en una de 5 posibilidades que programe :)   
             </ol>
         </div>
         <div id="grafico">

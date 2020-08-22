@@ -18,7 +18,8 @@ let canvasHeight = 150;
 
 let filter;
 let gainMaster;
-
+let delay;
+let feedback;
 
 //MASTER 
 let onOffMasterBtn = document.querySelector("#on-off-master");
@@ -30,15 +31,29 @@ let on = () => {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     console.log("audio ctx created");
 
+    //crear nodo de delay
+    delay = audioCtx.createDelay(5.0);    
+    //crear nodo para feedback
+    feedback = audioCtx.createGain();
+    feedback.gain.value = 0.2;
+
+    //crear nodo gain para master
     gainMaster = audioCtx.createGain();
     gainMaster.gain.value = gainMasterControl.value;
-    gainMaster.connect(audioCtx.destination);
 
+    //creado loop para feedback    
+    delay.connect(feedback);    
+    feedback.connect(delay);    
+    gainMaster.connect(delay);
+    gainMaster.connect(audioCtx.destination);
+    delay.connect(audioCtx.destination);
+
+   
     analyserMaster = audioCtx.createAnalyser();
     analyserMaster.smoothingTimeConstant = 0.85;
     analyserMaster.connect(gainMaster);
     visualize(visualizerMaster, canvasCtx4, analyserMaster);
-
+   
     filter = audioCtx.createBiquadFilter();
     filter.connect(analyserMaster);
     filter.type = filterType.value;
@@ -233,6 +248,23 @@ filterType.onchange = (e)=> {
     }
 }
 
+//Delay controles
+let delayTimeInput = document.querySelector("#delay-time");
+let delayTimeDis = document.querySelector("#delay-time-display");
+let feedbackInput = document.querySelector("#feedback");
+
+delayTimeInput.oninput = (e) => {
+    let time = parseFloat(e.target.value);
+    delay.delayTime.linearRampToValueAtTime(time, audioCtx.currentTime + 0.1, 0.1); 
+    delayTimeDis.innerHTML = time;
+}
+
+feedbackInput.oninput = (e) => {
+    let feedInput = parseFloat(e.target.value);
+        feedback.gain.value = feedInput;
+}
+
+
 //LFO 
 //controles
 let lfo;
@@ -260,7 +292,7 @@ function lfoActivate() {
 }
 
 //LFO destination  
-//OSC I PITCH
+//mod osc I pitch
 modOsc1.addEventListener( 'change', function() {
     if(this.checked && osc1) {
         lfoGain.connect(osc1.frequency);
@@ -270,7 +302,7 @@ modOsc1.addEventListener( 'change', function() {
 
 });
 
-//OSC II PITCH
+//mod osc II pitch
 modOsc2.addEventListener( 'change', function() {
     if(this.checked && osc2) {
         lfoGain.connect(osc2.frequency);
@@ -279,7 +311,7 @@ modOsc2.addEventListener( 'change', function() {
     }    
 });
 
-//FILTER CUT
+//mod filter cut
 modFilt.addEventListener( 'change', function() {
     if(this.checked) {
         lfoGain.connect(filter.frequency);
@@ -290,14 +322,16 @@ modFilt.addEventListener( 'change', function() {
 
 
 lfoWave.addEventListener( 'change', function(){
-    lfo.type = lfoWave.value;
+    if(audioCtx){
+      lfo.type = lfoWave.value; 
+    }
 });
 
 //Amount (amplitude)
 lfoAmt.oninput = (e) => {
     let amt = parseFloat(e.target.value);
    if(audioCtx && lfo){
-        lfoGain.gain.setTargetAtTime(amt, audioCtx.currentTime + 0.001, 0.01);
+        lfoGain.gain.setTargetAtTime(amt, audioCtx.currentTime + 0.001, 0.01);         
     }
 }
 
@@ -380,10 +414,12 @@ osc1onOffBtn.addEventListener('click', onOffOsc1);
 osc1GainControl.oninput = (e) => {
     let input = parseFloat(e.target.value);    
     let gain = input * input;
+    osc1GainVal.innerHTML = gain.toFixed(2); 
    if(audioCtx && osc1){
         gainOsc1.gain.value = gain;
-        osc1GainVal.innerHTML = gainOsc1.gain.value.toFixed(2); 
-    } 
+        osc1GainVal.innerHTML = gain.toFixed(2); 
+        console.log(osc1GainControl.value);
+    }  
 }
 
 
@@ -480,6 +516,7 @@ osc2onOffBtn.addEventListener('click', onOffOsc2);
 osc2GainControl.oninput = (e) => {
     let input = parseFloat(e.target.value);    
     let gain = input * input;
+    osc2GainVal.innerHTML = gain.toFixed(2); 
    if(audioCtx && osc2){
         gainOsc2.gain.value = gain;
         osc2GainVal.innerHTML = gain.toFixed(2);  
@@ -571,6 +608,7 @@ osc3onOffBtn.addEventListener('click', onOffOsc3);
 osc3GainControl.oninput = (e) => {
     let input = parseFloat(e.target.value);    
     let gain = input * input;
+    osc3GainVal.innerHTML = gain.toFixed(2);
    if(audioCtx && osc3){
         gainOsc3.gain.value = gain;
         osc3GainVal.innerHTML = gain.toFixed(2); 
@@ -601,132 +639,4 @@ osc3Wave.addEventListener( 'change', function(){
         osc3.type = osc3Wave.value;
         }
 });
-
-
-//Cambio de frecuencia de osc con teclado qwerty y cambio de octava
-
-let osc1NoteDisplay = document.querySelector("#osc1-note-display");
-let osc2NoteDisplay = document.querySelector("#osc2-note-display");
-let osc3NoteDisplay = document.querySelector("#osc3-note-display");
-let osc3FreqFree = document.querySelector("#osc3-freq-free");
-let keyCode = document.querySelectorAll("#key-code");
-
-//notas tabla, una octava C2-B2. Nombre de c/propiedad = codigo de tecla. 
-
-let notes = {
-    65: [65.41, "C2", 130.81, "C3", 261.63, "C4"],
-    87: [69.30, "C#2", 138.59, "C#3", 277.18, "C#4"], 
-    83: [73.42, "D2", 146.83, "D3", 293.66, "D4"],
-    69: [77.78, "D#2", 155.56, "D#3", 311.13, "D#4"],
-    68: [82.41, "E2", 164.81, "E3", 329.63, "E4"],
-    70: [87.31, "F2", 174.61, "F3", 349.23, "F4"],
-    84: [92.50, "F#2", 185.00, "F#3", 369.99, "F#4"],
-    71: [98.00, "G2", 196.00, "G3", 392.00, "G4"],
-    89: [103.83, "G#2", 207.65, "G#3", 415.30, "G#4"],	
-    72: [110.00, "A2", 220.00, "A3", 440, "A4"],
-    85: [116.54, "A#2", 233.08, "A#3", 466.16, "A#4"],
-    74: [123.47, "B2", 246.94, "B3", 493.88, "B4"],
-    75: [130.81,"C3", 261.63, "C4", 523.25, "C5"],
-    79: [138.59,"C#3", 277.18, "C#4", 554.37, "C#5"], 
-    76: [146.83,"D3", 293.66, "D4", 587.33, "D5"],
-    80: [155.56,"D#3", 311.13, "D#4", 622.25, "D#5"],
-    192: [164.81,"E3", 329.63, "E4", 659.25, "E"]
-}
-
-
-
-function playNote(event) { 
-    let key = event.which;
     
-    if (!notes.hasOwnProperty(key)) {
-        console.log("Wrong key! try: a-w-s-e-d-f-t-g-y-h-u-j-k-o-l-p-ñ");
-    } else {
-  
-        let osc1_oct = document.querySelector('input[name="osc1-oct"]:checked').value;
-           
-        if(osc1){
-            if (key == keyCode.innerHTML) {               
-                osc1.frequency.value = notes[key][osc1_oct];
-                //si se repite una tecla, bajo y subo el vol del osc, para articular el sonido repetido
-                gainOsc1.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                gainOsc1.gain.setTargetAtTime(gainOsc1.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                osc1Freq.value = notes[key][osc1_oct];
-                osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-            } else { 
-
-                osc1.frequency.value = notes[key][osc1_oct];
-                osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-                osc1Freq.value = notes[key][osc1_oct];
-            }
-
-            } else {
-            console.log("Oscilador I apagado");
-            } 
-
-        let osc2_oct = document.querySelector('input[name="osc2-oct"]:checked').value;
-        
-        if(osc2){
-            if (key == keyCode.innerHTML) {               
-                osc2.frequency.value = notes[key][osc2_oct];
-                gainOsc2.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                gainOsc2.gain.setTargetAtTime(gainOsc2.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                osc2Freq.value = notes[key][osc2_oct];
-                osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-            } else { 
-
-            osc2.frequency.value = notes[key][osc2_oct];
-            osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-            osc2Freq.value = notes[key][osc2_oct];
-
-            }
-
-            } else {
-                console.log("Oscilador II apagado");
-            }
-
-        let osc3_oct = document.querySelector('input[name="osc3-oct"]:checked').value;
-        
-        if(!osc3FreqFree.checked) {
-            if(osc3){
-                if (key == keyCode.innerHTML) {               
-                    osc3.frequency.value = notes[key][osc3_oct];
-                    gainOsc3.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                    gainOsc3.gain.setTargetAtTime(gainOsc3.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                    osc3Freq.value = notes[key][osc3_oct];
-                    osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                } else {    
-
-                osc3.frequency.value = notes[key][osc3_oct];
-                osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                osc3Freq.value = notes[key][osc3_oct];
-                }
-
-            } else {
-                console.log("Oscilador III apagado");
-            }
-        } 
-    } 
-    return key;
-}; 
-
-//funcion que ejecuta playNote, y luego registra el codigo de tecla que se toco
-//para poder chequear si se repite la nota
-let playNReg  = (event) => {
-    let keyPlayed = playNote(event);
-    
-    keyCode.innerHTML = keyPlayed;
-
-}
-
-document.addEventListener("keydown", playNReg); 
-
-
-//redirigir a github si es abierto desde un celular
-let mediaSize = window.matchMedia("(max-width: 600px)");
-
-window.addEventListener("load", function(event) {
-    if (mediaSize.matches) {
-        alert("por ahora no estoy diseñado para funcionar en dispositivos moviles, abrir en compu");
-        window.location.replace("https://github.com/JusRecondo/web-audio-api-synth");
-    }    
-});    

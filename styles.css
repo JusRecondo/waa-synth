@@ -78,6 +78,9 @@ body, input, button, option {
 .text-input-size {
   width: 70px;
 }
+.text-input-size2 {
+  width: 40px;
+}
 
 .margin {
   margin: 0px 15px 15px 0px;
