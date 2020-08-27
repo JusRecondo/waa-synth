@@ -122,3 +122,14 @@ ol {
 li {
   width: 80%;
 }
+
+button:hover {
+  animation-name: shadow;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
+}
+@keyframes shadow {
+  100% {
+    box-shadow: 5px 5px 10px rgba(0,0,0, 0.5);
+  }
+}
