@@ -133,6 +133,12 @@ ol {
 li {
   width: 80%;
 }
+a {
+  color: rgb(107, 58, 153);
+}
+a:visited {
+  color:  rgb(107, 58, 153);;
+}
 
 #help:hover {
   animation-name: shadow;
