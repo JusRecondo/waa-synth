@@ -60,6 +60,9 @@
   grid-row: 4;
 } 
 
+* {
+  box-sizing: border-box;
+}
 
 body, input, button, option {
 

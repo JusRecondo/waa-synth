@@ -6,35 +6,35 @@ let presetRandomBtn = document.querySelector("#preset-random");
 function checkOsc () {
     if (osc1 === 0 && osc2 === 0 & osc3 === 0){
         createOsc1();
-        osc1onOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON";        
         createOsc2();        
-        osc2onOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.innerHTML = "ON";
         createOsc3();
-        osc3onOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";        
     } else if (osc1 === 0 && osc2 === 0) {
         createOsc1();
-        osc1onOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON";        
         createOsc2();        
-        osc2onOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.innerHTML = "ON";
     } else if (osc1 === 0 && osc3 === 0) {
         createOsc1();
-        osc1onOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON";        
         createOsc3();
-        osc3onOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";        
     } else if (osc2 === 0 && osc3 === 0) {
         createOsc2();        
-        osc2onOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.innerHTML = "ON";
         createOsc3();
-        osc3onOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";        
     } else if (osc1 === 0) {
         createOsc1();
-        osc1onOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON";        
     } else if (osc2 === 0){
         createOsc2();        
-        osc2onOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.innerHTML = "ON";
     } else if (osc3 === 0) {
         createOsc3();
-        osc3onOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";        
     }
 }
 
