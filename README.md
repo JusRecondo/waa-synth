@@ -60,6 +60,6 @@ Ejercicio de programación y de síntesis.
             <a href="http://www.michaelnorris.info/theory/harmonicseriescalculator" target="_blank">harmonic series calculator</a><br>   
             <a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank">Frequencies for equal-tempered scale, A4 = 440 Hz</a> <br>
             <b>Proximas mejoras podrian ser la incorporacion de MIDI y manipulacion de la envolvente :3</b>
-            Podes jugar con el sinte <a href="https://jusrecondo.github.io/waa-synth/" target="_blank">ver Acá</a>
+            Podes jugar con el sinte <a href="https://jusrecondo.github.io/waa-synth/" target="_blank">Acá</a>
         </p>
     </main>
