@@ -12,8 +12,11 @@ option {
   font-family: 'Courier New', Courier, monospace;
 }
 
+a {
+  color: #000;
+}
 
-/* Sintentizador */
+/* Synth */
 
 /* grid */
 .grid-container {
@@ -77,76 +80,74 @@ option {
   grid-row: 4;
 } 
 
-.slider-width {
-    width: 220px;
+#gain-master,
+#filter-R,
+#lfo-amount {
+  width: 220px;
 }
 
-.slider-width2 {
+#filter-C,
+#lfo-rate {
   width: 280px;
 }
 
-.text-input-size {
-  width: 70px;
-}
-.text-input-size2 {
-  width: 40px;
+.osc-freq {
+  width: 100%;
 }
 
 .margin {
   margin: 0px 15px 15px 0px;
 }
 
-.margin-right {
+#osc1-note-display,
+#osc2-note-display,
+#osc3-note-display,
+#osc3-wave {
   margin-right: 20px;
 }
 
-.margin-top {
-  margin-top: 10px;
+button {
+  background-color: #000;
+  outline: none;
+  border: 0;
+  color: #fff;
+  margin-right: 5px;
+  padding: 5px;
+  font-size: 18px;  
 }
 
-.no-margin {
-  margin: 0px;
-  padding: 0px;
+button:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px rgb(192, 151, 233);
+}
+
+button a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.5s ease;
 }
 
 #on-off-master {
-  margin-right: 5px;
-  font-size: 18px;
-  padding: 5px;
-}
-
-.button-on {
-  background-color: rgb(175, 130, 221);
-  color: white;
-  border-radius: 3px;
-  outline: none;
-}
-
-#osc1-on-off, #osc2-on-off, #osc3-on-off {
-  padding: 5px;
-}
-
-#help {
   font-size: 20px;
 }
-
-a {
-  color: rgb(107, 58, 153);
-}
-a:visited {
-  color:  rgb(107, 58, 153);;
+#preset-random {
+  font-size: 16px;
+  margin-top: 10px;
 }
 
-#help:hover {
-  animation-name: shadow;
-  animation-duration: 200ms;
-  animation-fill-mode: forwards;
+.button-on,
+#help {
+  background-color: rgb(192, 151, 233);
+  outline: none;
+  border: 0;
 }
-@keyframes shadow {
-  100% {
-    box-shadow: 5px 5px 10px rgba(0,0,0, 0.3);
-  }
-} 
+
+#visualizer-osc-1,
+#visualizer-osc-2,
+#visualizer-osc-3 {
+  margin-top: 20px;
+}
 
 
 /* help */
@@ -207,6 +208,7 @@ p {
   #grafico-teclado {
     display: none;
   }
+
 }
 
 @media (min-width: 630px) and (max-width: 900px) {
@@ -253,12 +255,12 @@ p {
   }
 
   .grid-item-seven {
-  grid-column: 2;
-  grid-row: 3;
+  grid-column: 1;
+  grid-row: 4;
   }
 
   .grid-item-eight {
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 4;
   }
 

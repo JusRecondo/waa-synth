@@ -1,40 +1,52 @@
 'use strict';
 
 //presets
-let presetRandomBtn = document.querySelector("#preset-random");
+const presetRandomBtn = document.querySelector("#preset-random");
 
 function checkOsc () {
     if (osc1 === 0 && osc2 === 0 & osc3 === 0){
         createOsc1();
-        osc1OnOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON"; 
+        osc1OnOffBtn.classList.add("button-on");       
         createOsc2();        
         osc2OnOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.classList.add("button-on");
         createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON"; 
+        osc3OnOffBtn.classList.add("button-on");       
     } else if (osc1 === 0 && osc2 === 0) {
         createOsc1();
-        osc1OnOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON"; 
+        osc1OnOffBtn.classList.add("button-on");       
         createOsc2();        
         osc2OnOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.classList.add("button-on");
     } else if (osc1 === 0 && osc3 === 0) {
         createOsc1();
-        osc1OnOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON"; 
+        osc1OnOffBtn.classList.add("button-on");       
         createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";
+        osc3OnOffBtn.classList.add("button-on");        
     } else if (osc2 === 0 && osc3 === 0) {
         createOsc2();        
         osc2OnOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.classList.add("button-on");
         createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";   
+        osc3OnOffBtn.classList.add("button-on");     
     } else if (osc1 === 0) {
         createOsc1();
-        osc1OnOffBtn.innerHTML = "ON";        
+        osc1OnOffBtn.innerHTML = "ON";
+        osc1OnOffBtn.classList.add("button-on");        
     } else if (osc2 === 0){
         createOsc2();        
         osc2OnOffBtn.innerHTML = "ON";
+        osc2OnOffBtn.classList.add("button-on");
     } else if (osc3 === 0) {
         createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";        
+        osc3OnOffBtn.innerHTML = "ON";   
+        osc3OnOffBtn.classList.add("button-on");     
     }
 }
 
@@ -65,7 +77,7 @@ let preset1 = () => {
     osc2GainVal.innerHTML = 0.30;
 
     gainOsc3.gain.value = 0.06;
-    osc3GainControl.value = 26.06;
+    osc3GainControl.value = 0.06;
     osc3GainVal.innerHTML = 0.06;
 
     osc1.detune.value = 0;
@@ -81,8 +93,8 @@ let preset1 = () => {
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
     filter.frequency.value = 2000;
-    filterCut2.value = filter.frequency.value;
-    filterCutDisplay2.innerHTML = "3000 Hz";
+    filterCut.value = filter.frequency.value;
+    filterCutDisplay.innerHTML = "3000 Hz";
     filter.Q.value = 4;
     filterRes.value = 4;
     filterResDisplay.innerHTML = 4;
@@ -154,8 +166,8 @@ let preset2 = () => {
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
     filter.frequency.value = 1200;
-    filterCut2.value = filter.frequency.value;
-    filterCutDisplay2.innerHTML = "1200 Hz";
+    filterCut.value = filter.frequency.value;
+    filterCutDisplay.innerHTML = "1200 Hz";
     filter.Q.value = 4;
     filterRes.value = 4;
     filterResDisplay.innerHTML = 4;
@@ -225,8 +237,8 @@ let preset3 = () => {
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
     filter.frequency.value = 860;
-    filterCut2.value = filter.frequency.value;
-    filterCutDisplay2.innerHTML = "860 Hz";
+    filterCut.value = filter.frequency.value;
+    filterCutDisplay.innerHTML = "860 Hz";
     filter.Q.value = 3;
     filterRes.value = 3;
     filterResDisplay.innerHTML = 3;
@@ -299,8 +311,8 @@ let preset4 = () => {
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
     filter.frequency.value = 2000;
-    filterCut2.value = filter.frequency.value;
-    filterCutDisplay2.innerHTML = "2000 Hz";
+    filterCut.value = filter.frequency.value;
+    filterCutDisplay.innerHTML = "2000 Hz";
     filter.Q.value = 4;
     filterRes.value = 4;
     filterResDisplay.innerHTML = 4;
@@ -373,8 +385,8 @@ let preset5 = () => {
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
     filter.frequency.value = 1100;
-    filterCut2.value = filter.frequency.value;
-    filterCutDisplay2.innerHTML = "1100 Hz";
+    filterCut.value = filter.frequency.value;
+    filterCutDisplay.innerHTML = "1100 Hz";
     filter.Q.value = 6.90;
     filterRes.value = 6.90;
     filterResDisplay.innerHTML = 6.90;

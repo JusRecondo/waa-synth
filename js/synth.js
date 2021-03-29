@@ -26,40 +26,42 @@ let onOffMasterBtn = document.querySelector("#on-off-master");
 let gainMasterControl = document.querySelector("#gain-master");
 let gainMasterVal = document.querySelector("#gain-master-val");
 let oscControls = document.querySelectorAll(".osc-controls");
-
-let on = () => {
+//Master ON
+let masterOn = () => {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     console.log("audio ctx created");
 
-    //crear nodo de delay
+    //create delay node
     delay = audioCtx.createDelay(5.0);    
-    //crear nodo para feedback
+    //create gain node for delay feedback loop
     feedback = audioCtx.createGain();
     feedback.gain.value = 0.2;
 
-    //crear nodo gain para master
+    //create gain node for master
     gainMaster = audioCtx.createGain();
     gainMaster.gain.value = gainMasterControl.value;
 
-    //creado loop para feedback    
+    //create delay feedback loop   
     delay.connect(feedback);    
     feedback.connect(delay);    
     gainMaster.connect(delay);
     gainMaster.connect(audioCtx.destination);
     delay.connect(audioCtx.destination);
 
-   
+    //create analyser for master's visualizer
     analyserMaster = audioCtx.createAnalyser();
     analyserMaster.smoothingTimeConstant = 0.85;
     analyserMaster.connect(gainMaster);
     visualize(visualizerMaster, canvasCtx4, analyserMaster);
    
+    //create filter
     filter = audioCtx.createBiquadFilter();
     filter.connect(analyserMaster);
     filter.type = filterType.value;
-    filter.frequency.value = filterCut2.value;
+    filter.frequency.value = filterCut.value;
     filter.Q.value = filterRes.value;
 
+    //create analysers for oscillators
     analyser1 = audioCtx.createAnalyser();
     analyser1.smoothingTimeConstant = 0.85;
     analyser1.connect(filter);
@@ -70,7 +72,7 @@ let on = () => {
     analyser3.smoothingTimeConstant = 0.85;
     analyser3.connect(filter);
 
-
+    //create gain node for oscillators
     gainOsc1 = audioCtx.createGain();
     gainOsc1.gain.value = 0;
     gainOsc1.connect(analyser1);
@@ -81,7 +83,7 @@ let on = () => {
     gainOsc3.gain.value = 0;
     gainOsc3.connect(analyser3);
 
-    
+    //create lfo node gain
     lfoGain = audioCtx.createGain();
     lfoGain.gain.value = lfoAmt.value; 
     lfoActivate();
@@ -92,8 +94,8 @@ let on = () => {
 
     oscControls.forEach((e)=> e.disabled = false);
 }
-
-let off = () => {
+//Master OFF
+let masterOff = () => {
     audioCtx.close().then( () => {
         console.log("audio ctx closed");
         oscControls.forEach((e)=> e.setAttribute('disabled', true));
@@ -111,13 +113,15 @@ let off = () => {
 
 function onOffMaster() {
     if(!audioCtx || audioCtx.state === "closed") {
-        on();
+        masterOn();
         onOffMasterBtn.innerHTML = "ON";
         onOffMasterBtn.classList.add("button-on");
+        presetRandomBtn.classList.add("button-on");
     } else if(audioCtx.state === "running") {
-        off();
+        masterOff();
         onOffMasterBtn.innerHTML = "OFF";
         onOffMasterBtn.classList.remove("button-on");
+        presetRandomBtn.classList.remove("button-on");
     } 
 } 
 
@@ -174,7 +178,7 @@ function visualize(canvas, canvasCtx, analyser) {
 
       analyser.getByteTimeDomainData(dataArray);
 
-      canvasCtx.fillStyle = 'rgb(207, 169, 245)';
+      canvasCtx.fillStyle = 'rgb(192, 151, 233)';
       canvasCtx.fillRect(0, 0,canvasWidth, canvasHeight);
       canvasCtx.lineWidth = 2;
       canvasCtx.strokeStyle = 'rgb(255, 255, 255)';
@@ -206,72 +210,58 @@ function visualize(canvas, canvasCtx, analyser) {
 }
 
 //FILTER
-let filterType = document.querySelector('#filter-type');
-let filterCut1 = document.querySelector('#filter-C1');
-let filterCut2 = document.querySelector('#filter-C2');
-let filterCutDisplay1 = document.querySelector('#filter-C-display1');
-let filterCutDisplay2 = document.querySelector('#filter-C-display2');
-let filterRes = document.querySelector('#filter-R');
-let filterResDisplay = document.querySelector('#filter-R-display');
+const filterType = document.querySelector('#filter-type');
+const filterCut = document.querySelector('#filter-C');
+const filterCutDisplay = document.querySelector('#filter-C-display');
+const filterRes = document.querySelector('#filter-R');
+const filterResDisplay = document.querySelector('#filter-R-display');
 
-//Cut off input range 
-filterCut1.oninput = (e) => {
-
-    let cutOff = parseFloat(e.target.value);
-    if(audioCtx && (osc1 || osc2 || osc3)) {
-        filter.frequency.exponentialRampToValueAtTime(cutOff, audioCtx.currentTime + 0.1, 0.2); 
-    }
-    let val = cutOff.toFixed(2);
-    filterCutDisplay1.innerHTML = `${val} Hz`;
-}
 
 //Cut off input range
-filterCut2.oninput = (e) => {
-
+filterCut.addEventListener('input', function (e) {
     let cutOff = parseFloat(e.target.value);
     if(audioCtx && (osc1 || osc2 || osc3)) {
         filter.frequency.exponentialRampToValueAtTime(cutOff, audioCtx.currentTime + 0.1, 0.2); 
     }
     let val = cutOff.toFixed(2);
-    filterCutDisplay2.innerHTML = `${val} Hz`;
-}
+    filterCutDisplay.innerHTML = `${val} Hz`;
+})
 
 //Resonance
-filterRes.oninput = (e) => {
+filterRes.addEventListener( 'input', function(e) {
     let res = parseFloat(e.target.value);
     if(audioCtx && (osc1 || osc2 || osc3)){
         filter.Q.value = res;
     }
     let val = res.toFixed(2);
     filterResDisplay.innerHTML = val;
-}
+})
 
-//LP-BP-HP
-filterType.onchange = (e)=> {
+//Filter type LP-BP-HP
+filterType.addEventListener( 'change', function(e) {
     if(audioCtx && (osc1 || osc2 || osc3)){
         filter.type = e.target.value;
     }
-}
+})
 
-//Delay controles
+//DELAY
 let delayTimeInput = document.querySelector("#delay-time");
 let delayTimeDis = document.querySelector("#delay-time-display");
 let feedbackInput = document.querySelector("#feedback");
 
-delayTimeInput.oninput = (e) => {
+delayTimeInput.addEventListener( 'input', function(e) {
     let time = parseFloat(e.target.value);
     delay.delayTime.linearRampToValueAtTime(time, audioCtx.currentTime + 0.1, 0.1); 
     delayTimeDis.innerHTML = time;
-}
+})
 
-feedbackInput.oninput = (e) => {
+feedbackInput.addEventListener( 'input', function(e) {
     let feedInput = parseFloat(e.target.value);
         feedback.gain.value = feedInput;
-}
+})
 
 
 //LFO 
-//controles
 let lfo;
 let lfoSwitch = document.querySelector('#lfo-on-off');
 let modOsc1 = document.querySelector('#mod-osc1');
@@ -351,11 +341,63 @@ lfoRate.oninput = (e) => {
 
 
 //OSCILADORES
+const freqInputs = document.querySelectorAll(".osc-freq");
+//change oscillators frequency
+freqInputs.forEach( (input, index) => {
+    input.addEventListener('input', function (input) {
+        let osc = index;
+        let freq = parseFloat(input.target.value);
+
+        switch (osc) {
+            case 0:
+                osc1FreqDisplay.innerHTML = freq + " Hz";  
+                //check if osc exists
+                if (osc1) {
+                    console.log("change osc1 freq to:" + freq);
+                    osc1.frequency.value = freq;
+                } 
+                break;
+            case 1:
+                osc2FreqDisplay.innerHTML = freq + " Hz";  
+                if(osc2) {
+                    console.log("change osc2 freq to:" + freq);
+                    osc2.frequency.value = freq;
+                } 
+                break; 
+            case 2: 
+                osc3FreqDisplay.innerHTML = freq + " Hz";  
+                if(osc3){
+                    console.log("change osc3 freq to:" + freq);
+                    osc3.frequency.value = freq;
+                }             
+                break;  
+        }
+    });
+});
+
+//freq input responsive 
+let noteDisplay = document.querySelectorAll (".note-display");
+let octDisplay = document.querySelectorAll (".octave-display");
+let maxWidth = window.matchMedia("(max-width: 700px)");
+
+
+function checkMediaSize( maxWidth) {
+   if (maxWidth.matches)  {
+        console.log( "media max width 700px..");
+        noteDisplay.forEach( (e) => e.style.display = "none" );
+        octDisplay.forEach ( (e) => e.style.display = "none" );
+   }
+}
+
+maxWidth.addEventListener('change', checkMediaSize);
+
+checkMediaSize(maxWidth);
+
 
 //OSC I controls
 let osc1OnOffBtn = document.querySelector('#osc1-on-off');
 let osc1GainControl = document.querySelector('#osc1-gain');
-let osc1Freq = document.querySelector('#osc1-freq');
+let osc1FreqDisplay = document.querySelector('#osc1-freq-display');
 let osc1Det = document.querySelector('#osc1-detune');
 let osc1DetVal = document.querySelector('#osc1-det-val');
 let osc1GainVal = document.querySelector('#osc1-gain-val');
@@ -366,7 +408,7 @@ let createOsc1 = () => {
     if(audioCtx) {
         osc1 = audioCtx.createOscillator();
         osc1.type = osc1Wave.value;
-        osc1.frequency.value = osc1Freq.value;
+        osc1.frequency.value = freqInputs[0].value;
         osc1.detune.value = osc1Det.value;
 
 
@@ -431,13 +473,15 @@ osc1GainControl.oninput = (e) => {
 
 
 
-//freq input
-osc1Freq.oninput = (e) => {
+//vieja funcion para cambiar frecuencias
+/* osc1Freq.oninput = (e) => {
     let freq = parseFloat(e.target.value);
     if (osc1) {
         osc1.frequency.value = freq;
+        osc1FreqDisplay.innerHTML = osc1Freq.value + " Hz";        
     }  
-}
+} */
+
 
 //detune fader
 osc1Det.oninput = (e) => {
@@ -462,17 +506,18 @@ osc1Wave.addEventListener( 'change', function(){
 //OSC II controls
 let osc2OnOffBtn = document.querySelector('#osc2-on-off');
 let osc2GainControl = document.querySelector('#osc2-gain');
-let osc2Freq = document.querySelector('#osc2-freq');
 let osc2Det = document.querySelector('#osc2-detune');
 let osc2DetVal = document.querySelector('#osc2-det-val');
 let osc2GainVal = document.querySelector('#osc2-gain-val');
 let osc2Wave = document.querySelector('#osc2-wave');
 
+let osc2FreqDisplay = document.querySelector('#osc2-freq-display');
+
 //create osc2
 let createOsc2 = () => {
     if(audioCtx) {
         osc2 = audioCtx.createOscillator();
-        osc2.frequency.value = osc2Freq.value;
+        osc2.frequency.value = freqInputs[1].value;
         osc2.detune.value = osc2Det.value;
         osc2.type = osc2Wave.value;
 
@@ -532,14 +577,6 @@ osc2GainControl.oninput = (e) => {
     } 
 }
 
-//freq input
-osc2Freq.oninput = (e) => {
-    let freq = parseFloat(e.target.value);
-    if(osc2) {
-        osc2.frequency.value = freq;
-    }
-}
-
 //detune fader
 osc2Det.oninput = (e) => {
     let cents = parseFloat(e.target.value);
@@ -561,17 +598,18 @@ osc2Wave.addEventListener( 'change', function(){
 //OSC III controls
 let osc3OnOffBtn = document.querySelector('#osc3-on-off');
 let osc3GainControl = document.querySelector('#osc3-gain');
-let osc3Freq = document.querySelector('#osc3-freq');
 let osc3Det = document.querySelector('#osc3-detune');
 let osc3DetVal = document.querySelector('#osc3-det-val');
 let osc3GainVal = document.querySelector('#osc3-gain-val');
 let osc3Wave = document.querySelector('#osc3-wave');
 
+let osc3FreqDisplay = document.querySelector('#osc3-freq-display');
+
 //create osc3
 let createOsc3 = () => {
     if(audioCtx) {
         osc3 = audioCtx.createOscillator();
-        osc3.frequency.value = osc3Freq.value;
+        osc3.frequency.value = freqInputs[2].value;
         osc3.detune.value = osc3Det.value;
         osc3.type = osc3Wave.value;
 
@@ -625,14 +663,6 @@ osc3GainControl.oninput = (e) => {
         osc3GainVal.innerHTML = gain.toFixed(2); 
     }
      
-}
-
-//freq input
-osc3Freq.oninput = (e) => {
-    let freq = parseFloat(e.target.value);
-    if(osc3) {
-        osc3.frequency.value = freq;
-    }
 }
 
 //detune fader

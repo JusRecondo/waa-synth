@@ -2,7 +2,7 @@
 
 //Cambio de frecuencia de osc con teclado qwerty y cambio de octava
 
-let osc1NoteDisplay = document.querySelector("#osc1-note-display");
+var osc1NoteDisplay = document.querySelector("#osc1-note-display");
 let osc2NoteDisplay = document.querySelector("#osc2-note-display");
 let osc3NoteDisplay = document.querySelector("#osc3-note-display");
 let osc3FreqFree = document.querySelector("#osc3-freq-free");
@@ -51,13 +51,15 @@ function playNote(event, tecla) {
                 //si se repite una tecla, bajo y subo el vol del osc, para articular el sonido repetido
                 gainOsc1.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                 gainOsc1.gain.setTargetAtTime(gainOsc1.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                osc1Freq.value = notes[key][osc1_oct];
+                freqInputs[0].value = notes[key][osc1_oct];
                 osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
+                osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
             } else { 
 
                 osc1.frequency.value = notes[key][osc1_oct];
                 osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-                osc1Freq.value = notes[key][osc1_oct];
+                freqInputs[0].value = notes[key][osc1_oct];
+                osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
             }
 
             } else {
@@ -71,14 +73,15 @@ function playNote(event, tecla) {
                 osc2.frequency.value = notes[key][osc2_oct];
                 gainOsc2.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                 gainOsc2.gain.setTargetAtTime(gainOsc2.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                osc2Freq.value = notes[key][osc2_oct];
+                freqInputs[1].value = notes[key][osc2_oct];
                 osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
+                osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
             } else { 
 
-            osc2.frequency.value = notes[key][osc2_oct];
-            osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-            osc2Freq.value = notes[key][osc2_oct];
-
+                osc2.frequency.value = notes[key][osc2_oct];
+                osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
+                freqInputs[1].value = notes[key][osc2_oct];
+                osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
             }
 
             } else {
@@ -93,13 +96,15 @@ function playNote(event, tecla) {
                     osc3.frequency.value = notes[key][osc3_oct];
                     gainOsc3.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                     gainOsc3.gain.setTargetAtTime(gainOsc3.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                    osc3Freq.value = notes[key][osc3_oct];
+                    freqInputs[2].value = notes[key][osc3_oct];
                     osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
+                    osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
                 } else {    
 
-                osc3.frequency.value = notes[key][osc3_oct];
-                osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                osc3Freq.value = notes[key][osc3_oct];
+                    osc3.frequency.value = notes[key][osc3_oct];
+                    osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
+                    freqInputs[2].value = notes[key][osc3_oct];
+                    osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
                 }
 
             } else {
