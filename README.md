@@ -48,7 +48,7 @@ Ejercicio de programación y de síntesis.
             Data útil:<br>
             <a href="http://www.michaelnorris.info/theory/harmonicseriescalculator" target="_blank">harmonic series calculator</a><br>   
             <a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank">Frequencies for equal-tempered scale, A4 = 440 Hz</a> <br>
-            Hecho por <a href="https://www.instagram.com/jusrecondo/">Jus</a><br>
+            Hecho por <a href="https://www.instagram.com/jusrecondo/" target="_blank">Jus</a><br>
             <a href="https://github.com/JusRecondo/web-audio-api-synth" target="_blank">ver código en github</a>
         </p>
     </main>
