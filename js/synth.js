@@ -245,9 +245,9 @@ filterType.addEventListener( 'change', function(e) {
 })
 
 //DELAY
-let delayTimeInput = document.querySelector("#delay-time");
-let delayTimeDis = document.querySelector("#delay-time-display");
-let feedbackInput = document.querySelector("#feedback");
+const delayTimeInput = document.querySelector("#delay-time");
+const delayTimeDis = document.querySelector("#delay-time-display");
+const feedbackInput = document.querySelector("#feedback");
 
 delayTimeInput.addEventListener( 'input', function(e) {
     let time = parseFloat(e.target.value);
@@ -263,14 +263,14 @@ feedbackInput.addEventListener( 'input', function(e) {
 
 //LFO 
 let lfo;
-let lfoSwitch = document.querySelector('#lfo-on-off');
-let modOsc1 = document.querySelector('#mod-osc1');
-let modOsc2 = document.querySelector('#mod-osc2');
-let modFilt = document.querySelector('#mod-filter-cut');
-let lfoWave = document.querySelector('#lfo-wave');
-let lfoRate = document.querySelector('#lfo-rate');
-let lfoRateDis = document.querySelector('#lfo-rate-display');
-let lfoAmt = document.querySelector('#lfo-amount');
+const lfoSwitch = document.querySelector('#lfo-on-off');
+const modOsc1 = document.querySelector('#mod-osc1');
+const modOsc2 = document.querySelector('#mod-osc2');
+const modFilt = document.querySelector('#mod-filter-cut');
+const lfoWave = document.querySelector('#lfo-wave');
+const lfoRate = document.querySelector('#lfo-rate');
+const lfoRateDis = document.querySelector('#lfo-rate-display');
+const lfoAmt = document.querySelector('#lfo-amount');
 
 
 //crear LFO (se ejecuta al prender master)
@@ -341,74 +341,173 @@ lfoRate.oninput = (e) => {
 
 
 //OSCILADORES
-const freqInputs = document.querySelectorAll(".osc-freq");
-//change oscillators frequency
-freqInputs.forEach( (input, index) => {
-    input.addEventListener('input', function (input) {
-        let osc = index;
-        let freq = parseFloat(input.target.value);
 
-        switch (osc) {
-            case 0:
-                osc1FreqDisplay.innerHTML = freq + " Hz";  
-                //check if osc exists
-                if (osc1) {
-                    console.log("change osc1 freq to:" + freq);
-                    osc1.frequency.value = freq;
-                } 
-                break;
-            case 1:
-                osc2FreqDisplay.innerHTML = freq + " Hz";  
-                if(osc2) {
-                    console.log("change osc2 freq to:" + freq);
-                    osc2.frequency.value = freq;
-                } 
-                break; 
-            case 2: 
-                osc3FreqDisplay.innerHTML = freq + " Hz";  
-                if(osc3){
-                    console.log("change osc3 freq to:" + freq);
-                    osc3.frequency.value = freq;
-                }             
-                break;  
-        }
+//Set wave
+const waveSelect = document.querySelectorAll('.osc-wave');
+
+function setWave(osc, wave) {
+    switch (osc) {
+        case 0:
+            if (audioCtx && osc1) {
+                osc1.type = wave;
+            } 
+            break;
+        case 1:
+            if (audioCtx && osc2) {
+                osc2.type = wave;
+            } 
+            break; 
+        case 2: 
+            if (audioCtx && osc3) {
+                osc3.type = wave;
+            }           
+            break;  
+    }
+} 
+
+waveSelect.forEach( (select, index) => {
+    select.addEventListener('change', function (input) {
+        let osc = index;
+        let wave = input.target.value;
+
+        setWave(osc, wave);
     });
 });
 
-//freq input responsive 
-let noteDisplay = document.querySelectorAll (".note-display");
-let octDisplay = document.querySelectorAll (".octave-display");
-let maxWidth = window.matchMedia("(max-width: 700px)");
 
+//Set oscillators frequency
+const freqFaders = document.querySelectorAll(".osc-freq");
 
-function checkMediaSize( maxWidth) {
-   if (maxWidth.matches)  {
-        console.log( "media max width 700px..");
-        noteDisplay.forEach( (e) => e.style.display = "none" );
-        octDisplay.forEach ( (e) => e.style.display = "none" );
-   }
+function setFreq(osc, freq) {
+    switch (osc) {
+        case 0:
+            osc1FreqDisplay.innerHTML = freq + " Hz";  
+            //check if osc exists
+            if (audioCtx && osc1) {
+                osc1.frequency.value = freq;
+            } 
+            break;
+        case 1:
+            osc2FreqDisplay.innerHTML = freq + " Hz";  
+            if(audioCtx && osc2) {
+                osc2.frequency.value = freq;
+            } 
+            break; 
+        case 2: 
+            osc3FreqDisplay.innerHTML = freq + " Hz";  
+            if(audioCtx && osc3){
+                osc3.frequency.value = freq;
+            }             
+            break;  
+    }
 }
 
-maxWidth.addEventListener('change', checkMediaSize);
+freqFaders.forEach( (fader, index) => {
+    fader.addEventListener('input', function (input) {
+        let osc = index;
+        let freq = parseFloat(input.target.value);
 
-checkMediaSize(maxWidth);
+        setFreq(osc, freq);
+    });
+});
+
+
+//Set osc volume
+const gainFaders = document.querySelectorAll(".osc-gain");
+
+function setGain (osc, value) {
+    let gain = Math.pow(value, 2);
+    
+    switch (osc) {
+        case 0:
+            osc1GainVal.innerHTML = gain.toFixed(2);  
+            //check if osc exists
+            if (audioCtx && osc1) {
+                gainOsc1.gain.value = gain;
+            } 
+            break;
+        case 1:
+            osc2GainVal.innerHTML = gain.toFixed(2);  
+            //check if osc exists
+            if (audioCtx && osc2) {
+                gainOsc2.gain.value = gain;
+            } 
+            break; 
+        case 2: 
+            osc3GainVal.innerHTML = gain.toFixed(2);  
+            //check if osc exists
+            if (audioCtx && osc3) {
+                gainOsc3.gain.value = gain;
+            }          
+            break;  
+    }
+}
+
+gainFaders.forEach( (fader, index) => {
+    fader.addEventListener('input', function (input) {
+        let osc = index;
+        let gainValue = input.target.value;
+
+       setGain(osc, gainValue);
+       
+    });
+});
+
+//Detune oscillators
+const detuneFaders = document.querySelectorAll(".osc-detune");
+
+function setDetune(osc, cents) {
+    switch (osc) {
+        case 0:
+            osc1DetVal.innerHTML = `${cents} cents`;  
+            //check if osc exists
+            if (audioCtx && osc1) {
+                osc1.detune.value = cents;
+            } 
+            break;
+        case 1:
+            osc2DetVal.innerHTML = `${cents} cents`;  
+            //check if osc exists
+            if (audioCtx && osc2) {
+                osc2.detune.value = cents;
+            } 
+            break; 
+        case 2: 
+            osc3DetVal.innerHTML = `${cents} cents`;  
+            //check if osc exists
+            if (audioCtx && osc3) {
+                osc3.detune.value = cents;
+            }        
+            break;  
+    }
+}
+
+detuneFaders.forEach( (fader, index) => {
+    fader.addEventListener('input', function (input) {
+        let osc = index;
+        let cents = parseFloat(input.target.value);
+
+        setDetune(osc, cents);
+    });
+});
+
 
 
 //OSC I controls
-let osc1OnOffBtn = document.querySelector('#osc1-on-off');
-let osc1GainControl = document.querySelector('#osc1-gain');
-let osc1FreqDisplay = document.querySelector('#osc1-freq-display');
-let osc1Det = document.querySelector('#osc1-detune');
-let osc1DetVal = document.querySelector('#osc1-det-val');
-let osc1GainVal = document.querySelector('#osc1-gain-val');
-let osc1Wave = document.querySelector('#osc1-wave');
+const osc1OnOffBtn = document.querySelector('#osc1-on-off');
+const osc1GainControl = document.querySelector('#osc1-gain');
+const osc1FreqDisplay = document.querySelector('#osc1-freq-display');
+const osc1Det = document.querySelector('#osc1-detune');
+const osc1DetVal = document.querySelector('#osc1-det-val');
+const osc1GainVal = document.querySelector('#osc1-gain-val');
+const osc1Wave = document.querySelector('#osc1-wave');
 
 //create osc I
 let createOsc1 = () => {
     if(audioCtx) {
         osc1 = audioCtx.createOscillator();
         osc1.type = osc1Wave.value;
-        osc1.frequency.value = freqInputs[0].value;
+        osc1.frequency.value = freqFaders[0].value;
         osc1.detune.value = osc1Det.value;
 
 
@@ -434,6 +533,7 @@ let createOsc1 = () => {
     }
 }
 
+ 
 //delete osc I
 let deleteOsc1 = () => {
     osc1.stop(audioCtx.currentTime);
@@ -447,6 +547,8 @@ let deleteOsc1 = () => {
 function onOffOsc1() {
     if(!osc1) {
         createOsc1();
+       /*  createOsc(osc1, 0, gainOsc1); */
+        console.log("osc 1 on");
         osc1OnOffBtn.innerHTML = "ON";
         osc1OnOffBtn.classList.add("button-on");
     } else if(osc1) {
@@ -457,67 +559,23 @@ function onOffOsc1() {
 }
 
 osc1OnOffBtn.addEventListener('click', onOffOsc1);
- 
-
-//gain input fader
-osc1GainControl.oninput = (e) => {
-    let input = parseFloat(e.target.value);    
-    let gain = input * input;
-    osc1GainVal.innerHTML = gain.toFixed(2); 
-   if(audioCtx && osc1){
-        gainOsc1.gain.value = gain;
-        osc1GainVal.innerHTML = gain.toFixed(2); 
-        console.log(osc1GainControl.value);
-    }  
-}
-
-
-
-//vieja funcion para cambiar frecuencias
-/* osc1Freq.oninput = (e) => {
-    let freq = parseFloat(e.target.value);
-    if (osc1) {
-        osc1.frequency.value = freq;
-        osc1FreqDisplay.innerHTML = osc1Freq.value + " Hz";        
-    }  
-} */
-
-
-//detune fader
-osc1Det.oninput = (e) => {
-    let cents = parseFloat(e.target.value);
-    if(osc1) {
-        osc1.detune.value = cents;
-    }
-
-    osc1DetVal.innerHTML = `${cents} cents`;
-}
-
-//wave
-osc1Wave.addEventListener( 'change', function(){
-    if(osc1) {
-    osc1.type = osc1Wave.value;
-    }
-});
-
 
 //OSC 2
 
 //OSC II controls
-let osc2OnOffBtn = document.querySelector('#osc2-on-off');
-let osc2GainControl = document.querySelector('#osc2-gain');
-let osc2Det = document.querySelector('#osc2-detune');
-let osc2DetVal = document.querySelector('#osc2-det-val');
-let osc2GainVal = document.querySelector('#osc2-gain-val');
-let osc2Wave = document.querySelector('#osc2-wave');
-
-let osc2FreqDisplay = document.querySelector('#osc2-freq-display');
+const osc2OnOffBtn = document.querySelector('#osc2-on-off');
+const osc2GainControl = document.querySelector('#osc2-gain');
+const osc2Det = document.querySelector('#osc2-detune');
+const osc2DetVal = document.querySelector('#osc2-det-val');
+const osc2GainVal = document.querySelector('#osc2-gain-val');
+const osc2Wave = document.querySelector('#osc2-wave');
+const osc2FreqDisplay = document.querySelector('#osc2-freq-display');
 
 //create osc2
 let createOsc2 = () => {
     if(audioCtx) {
         osc2 = audioCtx.createOscillator();
-        osc2.frequency.value = freqInputs[1].value;
+        osc2.frequency.value = freqFaders[1].value;
         osc2.detune.value = osc2Det.value;
         osc2.type = osc2Wave.value;
 
@@ -555,6 +613,7 @@ function onOffOsc2() {
     if(!osc2) {
         createOsc2();
         osc2OnOffBtn.innerHTML = "ON";
+        console.log(osc2);
         osc2OnOffBtn.classList.add("button-on");
     } else if(osc2) {
         deleteOsc2();
@@ -565,51 +624,22 @@ function onOffOsc2() {
 
 osc2OnOffBtn.addEventListener('click', onOffOsc2);
 
-
-//gain input fader
-osc2GainControl.oninput = (e) => {
-    let input = parseFloat(e.target.value);    
-    let gain = input * input;
-    osc2GainVal.innerHTML = gain.toFixed(2); 
-   if(audioCtx && osc2){
-        gainOsc2.gain.value = gain;
-        osc2GainVal.innerHTML = gain.toFixed(2);  
-    } 
-}
-
-//detune fader
-osc2Det.oninput = (e) => {
-    let cents = parseFloat(e.target.value);
-    if(osc2) {
-        osc2.detune.value = cents;
-    }
-    osc2DetVal.innerHTML = `${cents} cents`;
-}
-
-//wave
-osc2Wave.addEventListener( 'change', function(){
-    if(osc2) {
-        osc2.type = osc2Wave.value;
-        }
-});
-
 //OSC 3
 
 //OSC III controls
-let osc3OnOffBtn = document.querySelector('#osc3-on-off');
-let osc3GainControl = document.querySelector('#osc3-gain');
-let osc3Det = document.querySelector('#osc3-detune');
-let osc3DetVal = document.querySelector('#osc3-det-val');
-let osc3GainVal = document.querySelector('#osc3-gain-val');
-let osc3Wave = document.querySelector('#osc3-wave');
-
-let osc3FreqDisplay = document.querySelector('#osc3-freq-display');
+const osc3OnOffBtn = document.querySelector('#osc3-on-off');
+const osc3GainControl = document.querySelector('#osc3-gain');
+const osc3Det = document.querySelector('#osc3-detune');
+const osc3DetVal = document.querySelector('#osc3-det-val');
+const osc3GainVal = document.querySelector('#osc3-gain-val');
+const osc3Wave = document.querySelector('#osc3-wave');
+const osc3FreqDisplay = document.querySelector('#osc3-freq-display');
 
 //create osc3
 let createOsc3 = () => {
     if(audioCtx) {
         osc3 = audioCtx.createOscillator();
-        osc3.frequency.value = freqInputs[2].value;
+        osc3.frequency.value = freqFaders[2].value;
         osc3.detune.value = osc3Det.value;
         osc3.type = osc3Wave.value;
 
@@ -652,32 +682,3 @@ function onOffOsc3() {
 
 osc3OnOffBtn.addEventListener('click', onOffOsc3);
 
-
-//gain input fader
-osc3GainControl.oninput = (e) => {
-    let input = parseFloat(e.target.value);    
-    let gain = input * input;
-    osc3GainVal.innerHTML = gain.toFixed(2);
-   if(audioCtx && osc3){
-        gainOsc3.gain.value = gain;
-        osc3GainVal.innerHTML = gain.toFixed(2); 
-    }
-     
-}
-
-//detune fader
-osc3Det.oninput = (e) => {
-    let cents = parseFloat(e.target.value);
-    if(osc3) {
-        osc3.detune.value = cents;
-    }
-    osc3DetVal.innerHTML = `${cents} cents`;
-}
-
-//wave
-osc3Wave.addEventListener( 'change', function(){
-    if(osc3) {
-        osc3.type = osc3Wave.value;
-        }
-});
-    

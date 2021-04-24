@@ -1,8 +1,15 @@
 * {
   box-sizing: border-box;
+  outline: 0;
 }
+
 body {
   background: #ebebeb;
+}
+
+main {
+  padding: 2rem 3rem; 
+  line-height: 1.5rem;
 }
 
 body, 
@@ -70,16 +77,6 @@ a {
   grid-row: 3;
 }
 
-.grid-item-nine {
-  grid-column: 1 / 3;
-  grid-row: 4;
-}
-
-.grid-item-ten {
-  grid-column: 3;
-  grid-row: 4;
-} 
-
 #gain-master,
 #filter-R,
 #lfo-amount {
@@ -91,8 +88,13 @@ a {
   width: 280px;
 }
 
+.osc-detune {
+  width: 120px;
+}
+
 .osc-freq {
   width: 100%;
+  max-width: 350px;
 }
 
 .margin {
@@ -137,7 +139,7 @@ button a {
 }
 
 .button-on,
-#help {
+#help-btn {
   background-color: rgb(192, 151, 233);
   outline: none;
   border: 0;
@@ -151,23 +153,16 @@ button a {
 
 
 /* help */
-main {
-  padding: 2rem 3rem; 
-  font-size: 18px;
-  line-height: 1.5rem;
-  font-weight: bold;
+ul,
+ol {
+  padding: 20px;
 }
 
-ol,
-p {
-  text-align: justify
+#help ol,
+#help p {
+  text-align: justify;
 }
-
-li, 
-p {
-  width: 90%;
-}
-
+ 
 #grafico-teclado {
   display: block;
   margin: 10px;
@@ -176,6 +171,12 @@ p {
   min-width: 350px;
 }
 
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
 
 
 /* Responsive */
@@ -185,13 +186,19 @@ p {
     width: 250px;
   }
 }
+@media (min-width: 360px) and (max-width: 629px) {
+  canvas {
+    width: 440px;
+    max-width: 100%;
+  }
+}
 
 @media (max-width: 629px) {
   .grid-container {
     display: block;
   }  
   
-  div[class^="grid-item"] {
+  section[class^="grid-item"] {
     margin-bottom: 30px;
   }
 
@@ -205,11 +212,16 @@ p {
     width: 100%;
   }
 
-  #grafico-teclado {
+  #grafico-teclado,
+  #osc3-free,
+  .note-display,
+  .octave-display {
     display: none;
   }
 
 }
+
+
 
 @media (min-width: 630px) and (max-width: 900px) {
   /* grid */
@@ -263,14 +275,10 @@ p {
   grid-column: 2;
   grid-row: 4;
   }
+}
 
-  .grid-item-nine {
-  grid-column: 1;
-  grid-row: 5;
+@media (max-width: 900px) {
+  footer {
+    flex-direction: column;
   }
-
-  .grid-item-ten {
-  grid-column: 2;
-  grid-row: 5;
-  } 
 }

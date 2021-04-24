@@ -51,14 +51,14 @@ function playNote(event, tecla) {
                 //si se repite una tecla, bajo y subo el vol del osc, para articular el sonido repetido
                 gainOsc1.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                 gainOsc1.gain.setTargetAtTime(gainOsc1.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                freqInputs[0].value = notes[key][osc1_oct];
+                freqFaders[0].value = notes[key][osc1_oct];
                 osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
                 osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
             } else { 
 
                 osc1.frequency.value = notes[key][osc1_oct];
                 osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-                freqInputs[0].value = notes[key][osc1_oct];
+                freqFaders[0].value = notes[key][osc1_oct];
                 osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
             }
 
@@ -73,14 +73,14 @@ function playNote(event, tecla) {
                 osc2.frequency.value = notes[key][osc2_oct];
                 gainOsc2.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                 gainOsc2.gain.setTargetAtTime(gainOsc2.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                freqInputs[1].value = notes[key][osc2_oct];
+                freqFaders[1].value = notes[key][osc2_oct];
                 osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
                 osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
             } else { 
 
                 osc2.frequency.value = notes[key][osc2_oct];
                 osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-                freqInputs[1].value = notes[key][osc2_oct];
+                freqFaders[1].value = notes[key][osc2_oct];
                 osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
             }
 
@@ -96,14 +96,14 @@ function playNote(event, tecla) {
                     osc3.frequency.value = notes[key][osc3_oct];
                     gainOsc3.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
                     gainOsc3.gain.setTargetAtTime(gainOsc3.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                    freqInputs[2].value = notes[key][osc3_oct];
+                    freqFaders[2].value = notes[key][osc3_oct];
                     osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
                     osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
                 } else {    
 
                     osc3.frequency.value = notes[key][osc3_oct];
                     osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                    freqInputs[2].value = notes[key][osc3_oct];
+                    freqFaders[2].value = notes[key][osc3_oct];
                     osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
                 }
 
