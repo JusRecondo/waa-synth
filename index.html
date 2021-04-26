@@ -87,20 +87,20 @@
                 <div>
                     <!-- Rate -->
                     <label for="lfo-rate">Rate</label><br>
-                    <input type="range" value="0" min="0.1" max="30" step="0.01" id="lfo-rate" name="lfo-rate" class="osc-controls" disabled><br>
+                    <input type="range" value="0" min="0.1" max="30" step="0.01" id="lfo-rate" class="osc-controls" disabled><br>
                     <span id="lfo-rate-display">0</span><br>
                     <!-- Amount -->
                     <label for="lfo-amount">Amount</label>
-                    <input type="range" value="0" min="0.5" max="1000" step="0.01" id="lfo-amount" name="lfo-amount" class="osc-controls" disabled>                   
+                    <input type="range" value="0" min="0.5" max="1000" step="0.01" id="lfo-amount" class="osc-controls" disabled>                   
                 </div>
                 <!-- Mod -->
                 <div class="margin">
                     <span>Mod:</span>
                     <label for="mod-filter-cut">
-                    <input type="checkbox" id="mod-filter-cut" value="1" name="lfo-mod" class="osc-controls">Filter Cut</label><br>
+                    <input type="checkbox" id="mod-filter-cut" value="1" class="osc-controls">Filter Cut</label><br>
                     <label for="mod-osc2">
-                    <input type="checkbox" id="mod-osc1" value="2" name="lfo-mod" class="osc-controls">OSC I pitch</label>
-                    <input type="checkbox" id="mod-osc2" value="3" name="lfo-mod" class="osc-controls">OSC II pitch</label>
+                    <input type="checkbox" id="mod-osc1" value="2" class="osc-controls">OSC I pitch</label>
+                    <input type="checkbox" id="mod-osc2" value="3" class="osc-controls">OSC II pitch</label>
                 </div>
             </div>
         </section>
@@ -111,17 +111,18 @@
             <section class="grid-item-six">
                 <div class="margin">
                     <h3>OSC I</h3>
-                    <button id="osc1-on-off" class="osc-controls" disabled>OFF</button><br>
+                    <button class="osc-controls on-off-osc" disabled>OFF</button><br>
                 </div>
                 <!-- wave -->
                 <div class="margin">   
-                    <label for="osc1-wave">Wave:</label>
-                    <select id="osc1-wave" class="osc-wave">
+                    <label>Wave:
+                    <select class="osc-controls osc-wave" disabled>
                         <option value="sine">sine</option>
                         <option value="triangle">triangle</option>
                         <option value="square">square</option>
                         <option value="sawtooth">sawtooth</option>
                     </select>  
+                    </label>
                 </div>
                 <!-- octave -->
                 <div class="octave-display margin">
@@ -146,19 +147,22 @@
                         <span id="osc1-note-display"></span>
                     </div>
                     <!-- freq -->
-                    <label for="osc1-freq">Freq:</label>  
+                    <label>Freq:
                    <input type="range" min="30" max="2000" value="220" id="osc1-freq" class="osc-controls osc-freq" disabled> 
-                   <span id="osc1-freq-display">Hz</span><br>
+                    </label>  
+                   <span class="osc-freq-display">Hz</span><br>
                 </div>
                 <!-- detune -->
                 <div>  
-                    <label for="osc1-detune">Detune</label>
-                    <input type="range" value="0" min="-100" max="100" id="osc1-detune" name="osc1-detune" class="osc-controls osc-detune" disabled>
-                    <span id="osc1-det-val">0 cents</span><br>
+                    <label>Detune
+                    <input type="range" value="0" min="-100" max="100"  class="osc-controls osc-detune" disabled>
+                    </label>
+                    <span class="osc-detune-display">0 cents</span><br>
                     <!-- gain -->
-                    <label for="osc1-gain">Gain</label>
-                    <input type="range" value="0" min="0" max="1" step="0.01" id="osc1-gain" name="osc1-gain" class="osc-controls osc-gain" disabled>
-                    <span id="osc1-gain-val">0</span>
+                    <label>Gain
+                    <input type="range" value="0" min="0" max="1" step="0.01" class="osc-controls osc-gain" disabled>
+                    </label>
+                    <span class="osc-gain-display">0</span>
                     <!-- visualizer -->
                 </div>
                 <div>
@@ -171,17 +175,18 @@
             <section class="grid-item-seven">
                 <div class="margin">
                     <h3>OSC II</h3>
-                    <button id="osc2-on-off" class="osc-controls" disabled>OFF</button><br>
+                    <button class="osc-controls on-off-osc" disabled>OFF</button><br>
                 </div>
                 <!-- wave -->
                 <div class="margin">   
-                    <label for="osc2-wave">Wave:</label>
-                    <select id="osc2-wave" class="osc-wave">
+                    <label>Wave:
+                    <select class="osc-controls osc-wave" disabled>
                         <option value="sine">sine</option>
                         <option value="triangle">triangle</option>
                         <option value="square">square</option>
                         <option value="sawtooth">sawtooth</option>
-                    </select>   
+                    </select>  
+                    </label> 
                 </div>
                 <!-- octave -->
                 <div class="octave-display margin">
@@ -208,17 +213,19 @@
                     <!-- freq -->
                     <label for="osc2-freq">Freq:</label>  
                     <input type="range" min="30" max="2000" value="220"id="osc2-freq" class="osc-controls osc-freq" disabled> 
-                    <span id="osc2-freq-display">Hz</span>
+                    <span class="osc-freq-display">Hz</span>
                 </div>
                 <!-- detune -->
                 <div>  
-                    <label for="osc2-detune">Detune</label>
-                    <input type="range" value="0" min="-100" max="100" id="osc2-detune" name="osc2-detune" class="osc-controls osc-detune" disabled>
-                    <span id="osc2-det-val">0 cents</span><br>
+                    <label>Detune
+                    <input type="range" value="0" min="-100" max="100" class="osc-controls osc-detune" disabled>
+                    </label>
+                    <span class="osc-detune-display">0 cents</span><br>
                     <!-- gain -->
-                    <label for="osc2-gain">Gain</label>
-                    <input type="range" value="0" min="0" max="1" step="0.01" id="osc2-gain" name="osc2-gain" class="osc-controls osc-gain" disabled>
-                    <span id="osc2-gain-val">0</span>
+                    <label>Gain
+                    <input type="range" value="0" min="0" max="1" step="0.01" class="osc-controls osc-gain" disabled>
+                    </label>
+                    <span class="osc-gain-display">0</span>
                 </div>    
                 <!-- visualizer -->
                 <div>
@@ -230,19 +237,20 @@
             <section class="grid-item-eight">
                 <div class="margin">
                     <h3>OSC III</h3>
-                    <button id="osc3-on-off" class="osc-controls" disabled>OFF</button><br>   
+                    <button class="osc-controls on-off-osc" disabled>OFF</button><br>   
                 </div>
                 <!-- wave -->
                 <div class="margin">   
-                    <label for="osc3-wave">Wave:</label>
-                    <select id="osc3-wave" class="osc-wave">
+                    <label>Wave:
+                    <select class="osc-controls osc-wave" disabled>
                         <option value="sine">sine</option>
                         <option value="triangle">triangle</option>
                         <option value="square">square</option>
                         <option value="sawtooth">sawtooth</option>
                     </select>
+                    </label>
                     <label for="osc3-freq-free" id="osc3-free">
-                        <input type="checkbox" id="osc3-freq-free">
+                        <input type="checkbox" id="osc3-freq-free" class="osc-controls" disabled>
                         Free
                     </label>
                     <br>    
@@ -273,18 +281,20 @@
                     <!-- freq -->
                     <label for="osc3-freq">Freq:</label>  
                     <input type="range" min="30" max="2000" value="220" id="osc3-freq" class="osc-controls osc-freq" disabled> 
-                    <span id="osc3-freq-display">Hz</span>
+                    <span class="osc-freq-display">Hz</span>
                     <br>
                 </div>
                 <!-- detune -->
                 <div>  
-                    <label for="osc3-detune">Detune</label>
-                    <input type="range" value="0" min="-100" max="100" id="osc3-detune" name="osc3-detune" class="osc-controls osc-detune" disabled>
-                    <span id="osc3-det-val">0 cents</span><br>
+                    <label>Detune
+                    <input type="range" value="0" min="-100" max="100" class="osc-controls osc-detune" disabled>
+                    </label>
+                    <span class="osc-detune-display">0 cents</span><br>
                     <!-- gain -->
-                    <label for="osc3-gain">Gain</label>
-                    <input type="range" value="0" min="0" max="1" step="0.01" id="osc3-gain" name="osc3-gain" class="osc-controls osc-gain" disabled>
-                    <span id="osc3-gain-val">0</span>
+                    <label>Gain
+                    <input type="range" value="0" min="0" max="1" step="0.01" class="osc-controls osc-gain" disabled>
+                    </label>
+                    <span class="osc-gain-display">0</span>
                 </div> 
                 <!-- visualizer -->
                 <div>
@@ -299,7 +309,7 @@
             <a href="http://www.michaelnorris.info/theory/harmonicseriescalculator" target="_blank">harmonic series calculator</a><br>   
             <a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank">Frequencies for equal-tempered scale, A4 = 440 Hz</a>
         </p>
-        <p><a href="https://www.instagram.com/jusrecondo/" target="_blank">Jus</a> 2020-2021 <br>
+        <p><a href="https://www.instagram.com/jusrecondo/">Jus</a> 2020-2021 <br>
             Hecho con HTML, CSS, JS y la <a href="https://www.w3.org/TR/webaudio/" target="_blank">Web Audio API</a> <br>
             <a href="https://github.com/JusRecondo/web-audio-api-synth" target="_blank">ver código en github</a>                       
         </p>

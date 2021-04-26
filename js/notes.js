@@ -1,18 +1,13 @@
 'use strict';
 
-//Cambio de frecuencia de osc con teclado qwerty y cambio de octava
+//Change oscillators notes width querty keyboard
 
 var osc1NoteDisplay = document.querySelector("#osc1-note-display");
 let osc2NoteDisplay = document.querySelector("#osc2-note-display");
 let osc3NoteDisplay = document.querySelector("#osc3-note-display");
 let osc3FreqFree = document.querySelector("#osc3-freq-free");
-let osc1_oct;
-let osc2_oct;
-let osc3_oct;
+let keyCode = "";
 
-let teclaAnterior = "";
-
-//notas, una octava C2-B2. Nombre de c/propiedad = codigo de tecla. 
 
 let notes = {
     65: [65.41, "C2", 130.81, "C3", 261.63, "C4"],
@@ -36,75 +31,59 @@ let notes = {
 
 
 
-function playNote(event, tecla) { 
-    let key = event.which;
+function playNote(e, key) { 
+    keyCode = e.which;
     
-    if (!notes.hasOwnProperty(key)) {
+    if (!notes.hasOwnProperty(keyCode)) {
         console.log("Tecla equivocada! probá: a-w-s-e-d-f-t-g-y-h-u-j-k-o-l-p-ñ");
     } else {
-        
-        osc1_oct= document.querySelector('input[name="osc1-oct"]:checked').value;
+        let osc1_oct= document.querySelector('input[name="osc1-oct"]:checked').value;
 
         if(osc1){
-            if (key === tecla) {              
-                osc1.frequency.value = notes[key][osc1_oct];
-                //si se repite una tecla, bajo y subo el vol del osc, para articular el sonido repetido
-                gainOsc1.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                gainOsc1.gain.setTargetAtTime(gainOsc1.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                freqFaders[0].value = notes[key][osc1_oct];
-                osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-                osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
-            } else { 
-
-                osc1.frequency.value = notes[key][osc1_oct];
-                osc1NoteDisplay.innerHTML = " " + notes[key][parseInt(osc1_oct) + 1];
-                freqFaders[0].value = notes[key][osc1_oct];
-                osc1FreqDisplay.innerHTML = notes[key][osc1_oct] + " Hz";  
-            }
+            if (keyCode === key) {              
+                    //if the key repeats, turn down and up volume 
+                    gainOsc1.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
+                    gainOsc1.gain.setTargetAtTime(gainOsc1.gain.value, audioCtx.currentTime + 0.01, 0.01);
+                } else { 
+                    osc1.frequency.value = notes[keyCode][osc1_oct];
+                    freqFaders[0].value = notes[keyCode][osc1_oct];
+                    osc1NoteDisplay.innerHTML = " " + notes[keyCode][parseInt(osc1_oct) + 1];
+                    freqDisplays[0].innerHTML = notes[keyCode][osc1_oct] + " Hz";  
+                }
 
             } else {
             console.log("Oscilador I apagado");
             } 
 
-        osc2_oct = document.querySelector('input[name="osc2-oct"]:checked').value;
+        let osc2_oct = document.querySelector('input[name="osc2-oct"]:checked').value;
         
         if(osc2){
-            if (key === tecla) {               
-                osc2.frequency.value = notes[key][osc2_oct];
-                gainOsc2.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                gainOsc2.gain.setTargetAtTime(gainOsc2.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                freqFaders[1].value = notes[key][osc2_oct];
-                osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-                osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
-            } else { 
-
-                osc2.frequency.value = notes[key][osc2_oct];
-                osc2NoteDisplay.innerHTML = " " + notes[key][parseInt(osc2_oct) + 1];
-                freqFaders[1].value = notes[key][osc2_oct];
-                osc2FreqDisplay.innerHTML = notes[key][osc2_oct] + " Hz";  
-            }
+            if (keyCode === key) {               
+                    gainOsc2.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
+                    gainOsc2.gain.setTargetAtTime(gainOsc2.gain.value, audioCtx.currentTime + 0.01, 0.01);
+                } else { 
+                    osc2.frequency.value = notes[keyCode][osc2_oct];
+                    freqFaders[1].value = notes[keyCode][osc2_oct];
+                    osc2NoteDisplay.innerHTML = " " + notes[keyCode][parseInt(osc2_oct) + 1];
+                    freqDisplays[1].innerHTML = notes[keyCode][osc2_oct] + " Hz";  
+                }
 
             } else {
                 console.log("Oscilador II apagado");
             }
 
-        osc3_oct = document.querySelector('input[name="osc3-oct"]:checked').value;
+       let osc3_oct = document.querySelector('input[name="osc3-oct"]:checked').value;
         
         if(!osc3FreqFree.checked) {
             if(osc3){
-                if (key === tecla) {               
-                    osc3.frequency.value = notes[key][osc3_oct];
+                if (keyCode=== key) {               
                     gainOsc3.gain.setTargetAtTime(0, audioCtx.currentTime, 0.01);
-                    gainOsc3.gain.setTargetAtTime(gainOsc3.gain.value, audioCtx.currentTime + 0.01, 0.01);
-                    freqFaders[2].value = notes[key][osc3_oct];
-                    osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                    osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
+                    gainOsc3.gain.setTargetAtTime(gainOsc3.gain.value, audioCtx.currentTime + 0.01, 0.01); 
                 } else {    
-
-                    osc3.frequency.value = notes[key][osc3_oct];
-                    osc3NoteDisplay.innerHTML = " " + notes[key][parseInt(osc3_oct) + 1];
-                    freqFaders[2].value = notes[key][osc3_oct];
-                    osc3FreqDisplay.innerHTML = notes[key][osc3_oct] + " Hz";  
+                    osc3.frequency.value = notes[keyCode][osc3_oct];
+                    freqFaders[2].value = notes[keyCode][osc3_oct];
+                    osc3NoteDisplay.innerHTML = " " + notes[keyCode][parseInt(osc3_oct) + 1];
+                    freqDisplays[2].innerHTML = notes[keyCode][osc3_oct] + " Hz";  
                 }
 
             } else {
@@ -112,10 +91,18 @@ function playNote(event, tecla) {
             }
         }
     } 
-    teclaAnterior = key; 
+    return keyCode; 
 }; 
 
+let fired = false;
 
-document.addEventListener("keydown", function (){
-    playNote(event, teclaAnterior);
+document.addEventListener("keydown", function (e){
+    if(!fired) {
+        fired = true;
+        keyCode = playNote(e, keyCode);
+    }
 }); 
+
+document.addEventListener("keyup", () => {
+    fired= false;
+})

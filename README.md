@@ -17,8 +17,6 @@ Ejercicio de programación y de síntesis.
                         <li>Con el slider del input "Freq"</li>
                         <li>Tocando con el teclado qwerty (en desktop) 
                             <img src="img/teclado.png" alt="teclado qwerty con notas" id="grafico-teclado">
-                            <br>No es necesario mantener las 
-                            teclas presionadas! si lo haces, se produce un descenso en volumen, no esta roto, es asi :)
                         </li>    
                         <li>Se puede variar un poco la afinación con el input "detune", 50 cents hacia arriba o hacia abajo (50 cents = 1/4 de tono);</li>  
                         <li>Cada oscilador se puede cambiar de octava independientemente.</li>  
@@ -48,7 +46,7 @@ Ejercicio de programación y de síntesis.
             Data útil:<br>
             <a href="http://www.michaelnorris.info/theory/harmonicseriescalculator" target="_blank">harmonic series calculator</a><br>   
             <a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank">Frequencies for equal-tempered scale, A4 = 440 Hz</a> <br>
-            Hecho por <a href="https://www.instagram.com/jusrecondo/" target="_blank">Jus</a><br>
+            Hecho por <a href="https://www.instagram.com/jusrecondo/">Jus</a><br>
             <a href="https://github.com/JusRecondo/web-audio-api-synth" target="_blank">ver código en github</a>
         </p>
     </main>

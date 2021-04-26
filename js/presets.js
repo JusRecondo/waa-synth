@@ -3,92 +3,63 @@
 //presets
 const presetRandomBtn = document.querySelector("#preset-random");
 
-function checkOsc () {
-    if (osc1 === 0 && osc2 === 0 & osc3 === 0){
-        createOsc1();
-        osc1OnOffBtn.innerHTML = "ON"; 
-        osc1OnOffBtn.classList.add("button-on");       
-        createOsc2();        
-        osc2OnOffBtn.innerHTML = "ON";
-        osc2OnOffBtn.classList.add("button-on");
-        createOsc3();
-        osc3OnOffBtn.innerHTML = "ON"; 
-        osc3OnOffBtn.classList.add("button-on");       
-    } else if (osc1 === 0 && osc2 === 0) {
-        createOsc1();
-        osc1OnOffBtn.innerHTML = "ON"; 
-        osc1OnOffBtn.classList.add("button-on");       
-        createOsc2();        
-        osc2OnOffBtn.innerHTML = "ON";
-        osc2OnOffBtn.classList.add("button-on");
-    } else if (osc1 === 0 && osc3 === 0) {
-        createOsc1();
-        osc1OnOffBtn.innerHTML = "ON"; 
-        osc1OnOffBtn.classList.add("button-on");       
-        createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";
-        osc3OnOffBtn.classList.add("button-on");        
-    } else if (osc2 === 0 && osc3 === 0) {
-        createOsc2();        
-        osc2OnOffBtn.innerHTML = "ON";
-        osc2OnOffBtn.classList.add("button-on");
-        createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";   
-        osc3OnOffBtn.classList.add("button-on");     
-    } else if (osc1 === 0) {
-        createOsc1();
-        osc1OnOffBtn.innerHTML = "ON";
-        osc1OnOffBtn.classList.add("button-on");        
-    } else if (osc2 === 0){
-        createOsc2();        
-        osc2OnOffBtn.innerHTML = "ON";
-        osc2OnOffBtn.classList.add("button-on");
-    } else if (osc3 === 0) {
-        createOsc3();
-        osc3OnOffBtn.innerHTML = "ON";   
-        osc3OnOffBtn.classList.add("button-on");     
-    }
+let oscillators = [osc1, osc2, osc3];
+
+function checkOsc (...oscillators) {
+
+    oscillators.map(function(osc, index){
+        if(osc === 0 && index === 0) {
+            osc1 = createOsc(osc1, 0, gainOsc1, visualizerOsc1, canvasCtx1, analyser1, modOsc1); 
+            return osc1;
+        } else if (osc === 0 && index === 1) {
+            osc2 = createOsc(osc2, 1, gainOsc2, visualizerOsc2, canvasCtx2, analyser2, modOsc2);
+            return osc2; 
+        }  else if  (osc === 0 && index === 2) {
+            osc3 = createOsc(osc3, 2, gainOsc3, visualizerOsc3, canvasCtx3, analyser3, null);
+            return osc3;
+        } 
+
+    });
 }
 
-let preset1 = () => {
-
-    checkOsc();
+function preset1() {
+    checkOsc(osc1, osc2, osc3);
 
     gainMaster.gain.value = 0.5;
     gainMasterControl.value = 0.5;
 
     osc1.type= "triangle";
-    osc1Wave.value = "triangle";
+    waveSelect[0].value = "triangle";
     osc2.type= "triangle";
-    osc2Wave.value = "triangle";
+    waveSelect[1].value = "triangle";
     osc3.type= "sawtooth";
-    osc3Wave.value = "sawtooth";
+    waveSelect[2].value = "sawtooth";
  
     document.querySelector('#osc1-oct-2').checked =true;
     document.querySelector('#osc2-oct-1').checked =true;
     document.querySelector('#osc3-oct0').checked =true; 
 
     gainOsc1.gain.value = 0.3;
-    osc1GainControl.value = 0.55;
-    osc1GainVal.innerHTML = 0.30;
+    gainFaders[0].value = 0.55;
+    gainDisplays[0].innerHTML = 0.30;
 
     gainOsc2.gain.value = 0.30;
-    osc2GainControl.value = 0.55;
-    osc2GainVal.innerHTML = 0.30;
+    gainFaders[1].value = 0.55;
+    gainDisplays[1].innerHTML = 0.30;
 
     gainOsc3.gain.value = 0.06;
-    osc3GainControl.value = 0.06;
-    osc3GainVal.innerHTML = 0.06;
+    gainFaders[2].value = 0.06;
+    gainDisplays[2].innerHTML = 0.06;
 
     osc1.detune.value = 0;
-    osc1Det.value = 0;
-    osc1DetVal.innerHTML = "0 cents";
+    detuneFaders[0].value = 0;
+    detuneDisplays[0].innerHTML = "0 cents";
     osc2.detune.value = 15;
-    osc2Det.value = 15;
-    osc2DetVal.innerHTML = "15 cents";
+    detuneFaders[1].value = 15;
+    detuneDisplays[1].innerHTML = "15 cents";
     osc3.detune.value = 0;
-    osc3Det.value = 0;
-    osc3DetVal.innerHTML = "0 cents";
+    detuneFaders[2].value = 0;
+    detuneDisplays[2].innerHTML = "0 cents";
 
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
@@ -124,44 +95,44 @@ let preset1 = () => {
     feedbackInput.value = 0;
 }
 
-let preset2 = () => {
-    checkOsc();
+function preset2() {
+    checkOsc(osc1, osc2, osc3);
 
     gainMaster.gain.value = 0.5;
     gainMasterControl.value = 0.5;
 
     osc1.type= "sawtooth";
-    osc1Wave.value = "sawtooth";
+    waveSelect[0].value = "sawtooth";
     osc2.type= "triangle";
-    osc2Wave.value = "triangle";
+    waveSelect[1].value = "triangle";
     osc3.type= "square";
-    osc3Wave.value = "square";
+    waveSelect[2].value = "square";
 
     document.querySelector('#osc1-oct-1').checked =true;
     document.querySelector('#osc2-oct-1').checked =true;
     document.querySelector('#osc3-oct0').checked =true; 
 
     gainOsc1.gain.value = 0.15;
-    osc1GainControl.value = 0.40;
-    osc1GainVal.innerHTML = 0.15;
+    gainFaders[0].value = 0.40;
+    gainDisplays[0].innerHTML = 0.15;
 
     gainOsc2.gain.value = 0.15;
-    osc2GainControl.value = 0.40;
-    osc2GainVal.innerHTML = 0.15;
+    gainFaders[1].value = 0.40;
+    gainDisplays[1].innerHTML = 0.15;
 
     gainOsc3.gain.value = 0.10;
-    osc3GainControl.value = 0.35;
-    osc3GainVal.innerHTML = 0.10;
+    gainFaders[2].value = 0.35;
+    gainDisplays[2].innerHTML = 0.10;
 
     osc1.detune.value = 0;
-    osc1Det.value = 0;
-    osc1DetVal.innerHTML = "0 cents";
+    detuneFaders[0].value = 0;
+    detuneDisplays[0].innerHTML = "0 cents";
     osc2.detune.value = 10;
-    osc2Det.value = 10;
-    osc2DetVal.innerHTML = "10 cents";
+    detuneFaders[1].value = 10;
+    detuneDisplays[1].innerHTML = "10 cents";
     osc3.detune.value = 0;
-    osc3Det.value = 0;
-    osc3DetVal.innerHTML = "0 cents";
+    detuneFaders[2].value = 0;
+    detuneDisplays[2].innerHTML = "0 cents";
 
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
@@ -195,44 +166,45 @@ let preset2 = () => {
     feedbackInput.value = 0.6;
 }
 
-let preset3 = () => {
-    checkOsc();
+function preset3() {
+    checkOsc(osc1, osc2, osc3);
 
     gainMaster.gain.value = 0.3;
     gainMasterControl.value = 0.3;
+    
 
     osc1.type= "square";
-    osc1Wave.value = "square";
+    waveSelect[0].value = "square";
     osc2.type= "triangle";
-    osc2Wave.value = "triangle";
+    waveSelect[1].value = "triangle";
     osc3.type= "sine";
-    osc3Wave.value = "sine";
+    waveSelect[2].value = "sine";
 
     document.querySelector('#osc1-oct-2').checked =true;
     document.querySelector('#osc2-oct0').checked =true;
     document.querySelector('#osc3-oct0').checked =true; 
 
     gainOsc1.gain.value = 0.20;
-    osc1GainControl.value = 0.45;
-    osc1GainVal.innerHTML = 0.20;
+    gainFaders[0].value = 0.45;
+    gainDisplays[0].innerHTML = 0.20;
 
     gainOsc2.gain.value = 0.30;
-    osc2GainControl.value = 0.55;
-    osc2GainVal.innerHTML = 0.30;
+    gainFaders[1].value = 0.55;
+    gainDisplays[1].innerHTML = 0.30;
 
     gainOsc3.gain.value = 0.30;
-    osc3GainControl.value = 0.55;
-    osc3GainVal.innerHTML = 0.30;
+    gainFaders[2].value = 0.55;
+    gainDisplays[2].innerHTML = 0.30;
 
     osc1.detune.value = 0;
-    osc1Det.value = 0;
-    osc1DetVal.innerHTML = "0 cents";
+    detuneFaders[0].value = 0;
+    detuneDisplays[0].innerHTML = "0 cents";
     osc2.detune.value = 15;
-    osc2Det.value = 15;
-    osc2DetVal.innerHTML = "15 cents";
+    detuneFaders[1].value = 15;
+    detuneDisplays[1].innerHTML = "15 cents";
     osc3.detune.value = 0;
-    osc3Det.value = 0;
-    osc3DetVal.innerHTML = "0 cents";
+    detuneFaders[2].value = 0;
+    detuneDisplays[2].innerHTML = "0 cents";
 
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
@@ -268,45 +240,44 @@ let preset3 = () => {
     feedbackInput.value = 0;
 }
 
-let preset4 = () => {
-
-    checkOsc();
+function preset4() {
+    checkOsc(osc1, osc2, osc3);
 
     gainMaster.gain.value = 0.5;
     gainMasterControl.value = 0.5;
 
     osc1.type= "triangle";
-    osc1Wave.value = "triangle";
+    waveSelect[0].value = "triangle";
     osc2.type= "triangle";
-    osc2Wave.value = "triangle";
+    waveSelect[1].value = "triangle";
     osc3.type= "sine";
-    osc3Wave.value = "sine";
+    waveSelect[2].value = "sine";
  
     document.querySelector('#osc1-oct-1').checked =true;
     document.querySelector('#osc2-oct-1').checked =true;
     document.querySelector('#osc3-oct0').checked =true; 
 
     gainOsc1.gain.value = 0.3;
-    osc1GainControl.value = 0.55;
-    osc1GainVal.innerHTML = 0.30;
+    gainFaders[0].value = 0.55;
+    gainDisplays[0].innerHTML = 0.30;
 
     gainOsc2.gain.value = 0.30;
-    osc2GainControl.value = 0.55;
-    osc2GainVal.innerHTML = 0.30;
+    gainFaders[1].value = 0.55;
+    gainDisplays[1].innerHTML = 0.30;
 
     gainOsc3.gain.value = 0.20;
-    osc3GainControl.value = 0.45;
-    osc3GainVal.innerHTML = 0.30;
+    gainFaders[2].value = 0.45;
+    gainDisplays[2].innerHTML = 0.30;
 
     osc1.detune.value = 0;
-    osc1Det.value = 0;
-    osc1DetVal.innerHTML = "0 cents";
+    detuneFaders[0].value = 0;
+    detuneDisplays[0].innerHTML = "0 cents";
     osc2.detune.value = 15;
-    osc2Det.value = 15;
-    osc2DetVal.innerHTML = "15 cents";
+    detuneFaders[1].value = 15;
+    detuneDisplays[1].innerHTML = "15 cents";
     osc3.detune.value = 0;
-    osc3Det.value = 0;
-    osc3DetVal.innerHTML = "0 cents";
+    detuneFaders[2].value = 0;
+    detuneDisplays[2].innerHTML = "0 cents";
 
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
@@ -342,45 +313,44 @@ let preset4 = () => {
     feedbackInput.value = 0;
 }
 
-let preset5 = () => {
-
-    checkOsc();
+function preset5() {
+    checkOsc(osc1, osc2, osc3);
 
     gainMaster.gain.value = 0.5;
     gainMasterControl.value = 0.5;
 
     osc1.type= "triangle";
-    osc1Wave.value = "triangle";
+    waveSelect[0].value = "triangle";
     osc2.type= "triangle";
-    osc2Wave.value = "triangle";
+    waveSelect[1].value = "triangle";
     osc3.type= "sawtooth";
-    osc3Wave.value = "sawtooth";
+    waveSelect[2].value = "sawtooth";
  
     document.querySelector('#osc1-oct-2').checked =true;
     document.querySelector('#osc2-oct-1').checked =true;
     document.querySelector('#osc3-oct-1').checked =true; 
 
     gainOsc1.gain.value = 0.20;
-    osc1GainControl.value = 0.45;
-    osc1GainVal.innerHTML = 0.20;
+    gainFaders[0].value = 0.45;
+    gainDisplays[0].innerHTML = 0.20;
 
     gainOsc2.gain.value = 0.22;
-    osc2GainControl.value = 0.47;
-    osc2GainVal.innerHTML = 0.22;
+    gainFaders[1].value = 0.47;
+    gainDisplays[1].innerHTML = 0.22;
 
     gainOsc3.gain.value = 0.23;
-    osc3GainControl.value = 0.48;
-    osc3GainVal.innerHTML = 0.23;
+    gainFaders[2].value = 0.48;
+    gainDisplays[2].innerHTML = 0.23;
 
     osc1.detune.value = 0;
-    osc1Det.value = 0;
-    osc1DetVal.innerHTML = "0 cents";
+    detuneFaders[0].value = 0;
+    detuneDisplays[0].innerHTML = "0 cents";
     osc2.detune.value = 17;
-    osc2Det.value = 17;
-    osc2DetVal.innerHTML = "17 cents";
+    detuneFaders[1].value = 17;
+    detuneDisplays[1].innerHTML = "17 cents";
     osc3.detune.value = 0;
-    osc3Det.value = 0;
-    osc3DetVal.innerHTML = "0 cents";
+    detuneFaders[2].value = 0;
+    detuneDisplays[2].innerHTML = "0 cents";
 
     filter.type = "lowpass";
     filterType.querySelectorAll('option')[0].selected = true;
